@@ -1,0 +1,51 @@
+{
+    "name": "empty-javascript-project",
+    "description": "Empty Javascript Project",
+    "repository": "git://github.com/Splash-Inc/empty-javascript-project.git",
+    "version": "0.0.1",
+    "dependencies": {
+        "backbone": "*",
+        "underscore": "*",
+        "jquery": "*",
+        "jquery-ui": "*",
+        "express": "*",
+        "gitana": "*",
+        "bootstrap": "*"
+    },
+    "devDependencies": {
+        "browserify": "*",
+        "exorcist": "*",
+        "hbsfy": "*",
+        "handlebars": "*",
+        "less": "*",
+        "watch": "*",
+        "parallelshell": "*"
+    },
+    "scripts": {
+        "setup": "sudo npm install",
+        "postsetup": "npm run -s makedir && npm run -s watch",
+
+        "makedir": "npm run -s makedir:css && npm run -s makedir:js && npm run -s makedir:fonts",
+        "makedir:css": "mkdir -p client/build/css/bootstrap",
+        "makedir:js": "mkdir -p client/build/js/bootstrap",
+        "makedir:fonts": "mkdir -p client/build/css/fonts",
+        "postmakedir": "npm run -s bootstrapcss && npm run -s bootstrapjs && npm run -s bootstrapfonts",
+
+        "bootstrapcss": "cp node_modules/bootstrap/dist/css/*.min.* client/build/css/bootstrap",
+        "bootstrapjs": "cp node_modules/bootstrap/dist/js/bootstrap.min.js client/build/js/bootstrap",
+        "bootstrapfonts": "cp node_modules/bootstrap/dist/fonts/* client/build/css/fonts",
+
+        "watch:js": "watch 'npm run build:js' client/assets/js",
+        "watch:hbs": "watch 'npm run build:hbs' client/assets/handlebars",
+        "watch:less": "watch 'npm run build:less' client/assets/less",
+        "watch": "parallelshell 'npm run -s watch:js' 'npm run -s watch:hbs' 'npm run -s watch:less'",
+
+        "build:alljs": "browserify -d -t hbsfy client/assets/js/app.js | exorcist client/build/js/all.js.map > client/build/js/all.js",
+        "build:js": "npm run build:alljs",
+        "build:hbs": "npm run build:alljs",
+        "build:less": "lessc client/assets/less/style.less > client/build/css/style.css",
+        "postbuild:js": "echo '---' && echo '»» BROWSERIFIED' && echo `date +'%Y-%m-%d %H:%M:%S'`",
+        "postbuild:hbs": "echo '---' && echo '»» HANDLEBARS::COMPILED' && echo `date +'%Y-%m-%d %H:%M:%S'`",
+        "postbuild:less": "echo '---' && echo '»» LESS::COMPILED' && echo `date +'%Y-%m-%d %H:%M:%S'`"
+    }
+}

@@ -1,0 +1,16 @@
+<h1 class="landing__header">{{title}}</h1>
+<ul class="landing__list person person--mini">
+    {{#each this}}
+        <li>
+            <h2 class="person__title">
+                <a href="#person/{{uid}}">
+                    {{!-- Custom Helper: plusone - See utils/handlebars_helpers.js --}}
+                    {{plusone @index}} — {{firstName}} {{lastName}}
+                </a>
+            </h2>
+            <h3 class="person__location">
+                {{location}}
+            </h3>
+        </li>
+    {{/each}}
+</ul>
